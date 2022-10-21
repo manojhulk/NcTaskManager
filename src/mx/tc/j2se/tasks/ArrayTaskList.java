@@ -15,11 +15,17 @@ public class ArrayTaskList<task> {
     }
     /**
      *
-     * constructor of parameterized ArrayList
-     * @param cap  indicates the size that we pass
+     * ArrayTaskList parameterized constructor
+     * @param cap  indicates the size that we pass to constructor
+     *  throws exception if @cap is negative
      */
     public ArrayTaskList(int cap){
-        elementData= new Task[cap];
+
+        if(cap<0){
+            throw new IllegalArgumentException("Time parameter should be positive");
+        } else {
+            elementData= new Task[cap];
+        }
     }
     /**
      * add elements in custom/your own ArrayList
@@ -67,7 +73,7 @@ public class ArrayTaskList<task> {
     public Task getTask(int index){
         if (index < 0 || index >= len) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size "
-                    + len);
+                        + len);
         }
         return elementData[index];
     }
@@ -81,4 +87,5 @@ public class ArrayTaskList<task> {
         }
         return -1;
     }
+
 }
