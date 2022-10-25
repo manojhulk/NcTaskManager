@@ -1,5 +1,4 @@
-import mx.tc.j2se.tasks.ArrayTaskList;
-import mx.tc.j2se.tasks.Task;
+import mx.tc.j2se.tasks.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,6 +7,19 @@ public class Main {
         ArrayTaskList<Task> aList = new ArrayTaskList<>();
         aList.add(ts);
         aList.add(ns);
+        //AbstractTaskList at=TaskListFactory.createTaskList(ARRAY);
+        /*
+        * @index starts from 1 in LinkedTaskList
+        * */
+        LinkedTaskList lt=new LinkedTaskList();
+        lt.add(ts);
+        lt.add(ns);
+        /*System.out.println(lt.getTask(1));
+        *@result mx.tc.j2se.tasks.Task@1b6d3586
+        *System.out.println(lt.remove(ts));
+        *System.out.println(lt.size());
+        *lt.display();
+         */
         /*
         System.out.println(aList.getTask(0));
         System.out.println(aList.size());

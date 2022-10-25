@@ -1,68 +1,67 @@
 package mx.tc.j2se.tasks;
 
-public class LinkedTaskList {
-
-    private Task data;
+public class LinkedTaskList extends AbstractTaskList{
     private int lenLink;
-    private LinkedTaskList nextNode;
-    LinkedTaskList head;
+    public Node head=null;
 
-    public LinkedTaskList(Task data){
-        this.data = data;
+    static class Node {
+        Task value;
+
+        // connect each node to next node
+        Node next;
+
+        Node(Task data) {
+            value = data;
+            next = null;
+        }
     }
 
-    public Task getData() {
-        return data;
-    }
-
-    public void setData(Task data) {
-        this.data = data;
-    }
-
-    public LinkedTaskList getNextNode() {
-        return nextNode;
-    }
-    public void setNextNode(LinkedTaskList nextNode) {
-        this.nextNode = nextNode;
-    }
     public void add(Task data){
-        LinkedTaskList newNode = new LinkedTaskList(data);
+        Node newNode = new Node(data);
         lenLink++;
-        if(this.head == null){
+        if(head == null){
             head = newNode;
         }else {
-            LinkedTaskList currentNode = head;
-            while(currentNode.getNextNode() != null){
-                currentNode = currentNode.getNextNode();
+            Node currentNode = head;
+            while(currentNode.next != null){
+                currentNode = currentNode.next;
             }
-            currentNode.setNextNode(newNode);
+            currentNode.next=newNode;
         }
     }
-    public boolean deleteTask(Task ob){
-        LinkedTaskList node = head;
+    public boolean remove (Task ob){
+        Node node = head;
         int cost=1;
-        while(node.getNextNode().getData() != ob && node.getNextNode()!=null){
-            node = node.getNextNode();
-            cost++;
-        }
-        if(cost<lenLink){
-            node.setNextNode(node.getNextNode().getNextNode());
+        if(node.value==ob){
+            head=node.next;
+            lenLink--;
+            return true;
+        }else{
+            while(node.next.value != ob){
+                node = node.next;
+                cost++;
+                if(cost>=lenLink){
+                    return false;
+                }
+            }
+            node.next=node.next.next;
+            lenLink--;
             return true;
         }
-        lenLink--;
-        return false;
     }
     public int size(){
         return this.lenLink;
     }
     public void display(){
         if(head != null){
-            LinkedTaskList currentNode = head;
-            while(currentNode.getNextNode() != null){
-                System.out.println(currentNode.getData());
-                currentNode = currentNode.getNextNode();
+            Node currentNode = head;
+            while(currentNode!= null){
+                System.out.println(currentNode.value);
+                currentNode = currentNode.next;
             }
-            System.out.println(currentNode.getData());
+        }
+        else {
+            throw new IndexOutOfBoundsException("Empty list");
         }
     }
     /*
@@ -77,13 +76,26 @@ public class LinkedTaskList {
                     + lenLink);
         }
         if(head != null){
-            LinkedTaskList currentNode = head;
+            Node currentNode = head;
             while(point!=index){
-                currentNode = currentNode.getNextNode();
+                currentNode = currentNode.next;
+                point++;
             }
-            return currentNode.getData();
+            return currentNode.value;
         }
         return null;
     }
-
+    public LinkedTaskList incoming(int from, int to){
+        LinkedTaskList subsets= new LinkedTaskList();
+        if(head!=null){
+            Node current=head;
+            while(current!= null){
+                if(current.value.getStartTime()>=from && current.value.getStartTime()<=to){
+                    subsets.add(current.value);
+                }
+                current = current.next;
+            }
+        }
+        return subsets;
+    }
 }

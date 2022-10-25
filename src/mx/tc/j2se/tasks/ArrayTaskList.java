@@ -1,10 +1,10 @@
 package mx.tc.j2se.tasks;
 import java.util.*;
 
-public class ArrayTaskList<task> {
+public class ArrayTaskList<task> extends AbstractTaskList {
     private static final int INITIAL_CAPACITY = 10;
     private int len = 0;
-    private Task[] elementData ={};
+    private Task[] elementData={};
     /**
      *
      * constructor of custom ArrayList
@@ -48,7 +48,7 @@ public class ArrayTaskList<task> {
     }
 
     /*
-    * @getIndex() method gets the index of Task task
+    * @getIndex() method gets the index of @Task task
     * @taskIndex is the index of specified task
     *
     */
@@ -86,6 +86,17 @@ public class ArrayTaskList<task> {
             point++;
         }
         return -1;
+    }
+    public ArrayTaskList incoming(int from, int to){
+        ArrayTaskList subsets= new ArrayTaskList();
+        for(Task t:elementData){
+            if(t.getStartTime()>=from && t.getStartTime()<=to){
+                subsets.add(t);
+            }else{
+                throw new IndexOutOfBoundsException("Time must be with in the range") ;
+            }
+        }
+        return subsets;
     }
 
 }

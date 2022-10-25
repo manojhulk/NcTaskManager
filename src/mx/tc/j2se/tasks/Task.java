@@ -14,9 +14,11 @@ public class Task {
     private String title;
     public Task (String title, int time){
         this.title=title;
-        this.time=time;
         this.repeat=false;
-
+        this.time=time;
+        if(this.time<0){
+            throw new IllegalArgumentException("Time parameter should be positive");
+        }
     }
     public Task (String title, int start, int end, int interval){
         this.title=title;
@@ -40,6 +42,20 @@ public class Task {
     public boolean isRepeated(){
         return repeat;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "start=" + start +
+                ", end=" + end +
+                ", interval=" + interval +
+                ", time=" + time +
+                ", repeat=" + repeat +
+                ", active=" + active +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
     public int getTime(){
         if(repeat){
             return time;
@@ -50,6 +66,9 @@ public class Task {
         if(repeat){
             repeat=false;
             this.time=time;
+        }
+        if(this.time<0){
+            throw new IllegalArgumentException("Time parameter should be positive");
         }
     }
     public int getStartTime(){
@@ -73,6 +92,9 @@ public class Task {
             this.end=end;
             this.interval=interval;
             this.repeat=true;
+        }
+        if(this.start<0 || this.end<0 || this.interval<0){
+            throw new IllegalArgumentException("parameters should be positive");
         }
 
     }
