@@ -14,6 +14,12 @@ public class Main {
         LinkedTaskList lt=new LinkedTaskList();
         lt.add(ts);
         lt.add(ns);
+
+        //TaskListFactory tlo= new TaskListFactory();
+        AbstractTaskList abt= TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        abt.add(ts);
+        abt.add(ns);
+        //System.out.println(abt.size());
         /*System.out.println(lt.getTask(1));
         *@result mx.tc.j2se.tasks.Task@1b6d3586
         *System.out.println(lt.remove(ts));

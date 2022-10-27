@@ -1,10 +1,10 @@
 package mx.tc.j2se.tasks;
 
-public class LinkedTaskList extends AbstractTaskList{
+public class LinkedTaskList extends AbstractTaskList implements Cloneable{
     private int lenLink;
     public Node head=null;
 
-    static class Node {
+    public static class Node {
         Task value;
 
         // connect each node to next node
@@ -16,6 +16,7 @@ public class LinkedTaskList extends AbstractTaskList{
         }
     }
 
+    @Override
     public void add(Task data){
         Node newNode = new Node(data);
         lenLink++;
@@ -29,6 +30,8 @@ public class LinkedTaskList extends AbstractTaskList{
             currentNode.next=newNode;
         }
     }
+
+    @Override
     public boolean remove (Task ob){
         Node node = head;
         int cost=1;
@@ -49,6 +52,7 @@ public class LinkedTaskList extends AbstractTaskList{
             return true;
         }
     }
+
     public int size(){
         return this.lenLink;
     }
@@ -97,5 +101,29 @@ public class LinkedTaskList extends AbstractTaskList{
             }
         }
         return subsets;
+    }
+    public boolean equals(Object obj) {
+        //null instanceof Object will always return false
+        if(obj==null){
+            return false;
+        }
+        if (!(obj instanceof LinkedTaskList))
+            return false;
+        if(((LinkedTaskList) obj).size()!=this.size()){
+            return false;
+        }
+        for(int i=0;i<this.size();i++){
+            if(!(this.getTask(i) == ((LinkedTaskList) obj).getTask(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int hashCode() {
+        return 0;
+    }
+    public Object clone() throws CloneNotSupportedException{
+        LinkedTaskList clonedOb = (LinkedTaskList) super.clone();
+        return clonedOb;
     }
 }

@@ -1,7 +1,7 @@
 package mx.tc.j2se.tasks;
 import java.util.*;
 
-public class ArrayTaskList<task> extends AbstractTaskList {
+public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
     private static final int INITIAL_CAPACITY = 10;
     private int len = 0;
     private Task[] elementData={};
@@ -31,7 +31,7 @@ public class ArrayTaskList<task> extends AbstractTaskList {
      * add elements in custom/your own ArrayList
      * Method adds elements in ArrayListCustom.
      */
-
+    @Override
     public void add (Task task){
         if(len == elementData.length){
             increaseCapacity();
@@ -52,7 +52,7 @@ public class ArrayTaskList<task> extends AbstractTaskList {
     * @taskIndex is the index of specified task
     *
     */
-
+    @Override
     public boolean remove (Task task){
         int taskIndex = getIndex(task);
         if(taskIndex!=-1){
@@ -64,12 +64,15 @@ public class ArrayTaskList<task> extends AbstractTaskList {
         }
         return false;
     }
+
     /*
     * METHOD to get size of array elementData
     */
+    @Override
     public int size(){
         return len;
     }
+    @Override
     public Task getTask(int index){
         if (index < 0 || index >= len) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size "
@@ -98,5 +101,28 @@ public class ArrayTaskList<task> extends AbstractTaskList {
         }
         return subsets;
     }
-
+    public boolean equals(Object obj) {
+        //null instanceof Object will always return false
+        if(obj==null){
+            return false;
+        }
+        if (!(obj instanceof ArrayTaskList))
+            return false;
+        if(((ArrayTaskList) obj).size()!=this.size()){
+            return false;
+        }
+        for(int i=0;i<this.size();i++){
+            if(!(this.getTask(i) == ((ArrayTaskList) obj).getTask(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int hashCode() {
+        return 0;
+    }
+    public Object clone() throws CloneNotSupportedException{
+        ArrayTaskList clonedOb = (ArrayTaskList)super.clone();
+        return clonedOb;
+    }
 }
