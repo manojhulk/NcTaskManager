@@ -3,24 +3,27 @@
 * It describes about various classes
 */
 package mx.tc.j2se.tasks;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime.*;
+import java.time.LocalTime;
 
 public class Task {
-    int start;
-    int end;
-    int interval;
-    private int time;
+    LocalDateTime start;
+    LocalDateTime end;
+    LocalTime interval;
+    private LocalDateTime time;
     boolean repeat;
     private boolean active;
     private String title;
-    public Task (String title, int time){
+    public Task (String title, LocalDateTime time){
         this.title=title;
         this.repeat=false;
         this.time=time;
-        if(this.time<0){
+        if(time.getHour()<0){
             throw new IllegalArgumentException("Time parameter should be positive");
         }
     }
-    public Task (String title, int start, int end, int interval){
+    public Task (String title, LocalDateTime start, LocalDateTime end, LocalTime interval){
         this.title=title;
         this.start=start;
         this.end=end;
@@ -56,52 +59,53 @@ public class Task {
                 '}';
     }
 
-    public int getTime(){
+    public LocalDateTime getTime(){
         if(repeat){
             return time;
         }
-        return 0;
+        return null;
     }
-    public void setTime(int time){
+    public void setTime(LocalDateTime time){
         if(repeat){
             repeat=false;
             this.time=time;
         }
-        if(this.time<0){
+        if(this.time.getHour()<0){
             throw new IllegalArgumentException("Time parameter should be positive");
         }
     }
-    public int getStartTime(){
+    public LocalDateTime getStartTime(){
         if(repeat){
-            return 0;
+            return null;
         }
         return this.time;
     }
-    public int getEndTime(){
+    public LocalDateTime getEndTime(){
         return this.end;
     }
-    public int getRepeatInterval(){
+    public LocalTime getRepeatInterval(){
         if(!repeat){
-            return 0;
+            return LocalTime.of(0,0,0);
         }
-        return -1;
+        return interval ;
     }
-    public void setTime(int start, int end, int interval){
+    public void setTime(LocalDateTime start, LocalDateTime end, LocalTime interval){
         if(!repeat){
             this.start=start;
             this.end=end;
             this.interval=interval;
             this.repeat=true;
         }
-        if(this.start<0 || this.end<0 || this.interval<0){
+        if(this.start.getHour()<0 || this.end.getHour()<0 || this.interval.getHour()<0){
             throw new IllegalArgumentException("parameters should be positive");
         }
 
     }
-    public int nextTimeAfter (int current){
-        int present=current + start;
-        if(present>end){
-            return -1;
+    public LocalDateTime nextTimeAfter (LocalDateTime current){
+        LocalDateTime present=current.plusHours(interval.getHour());
+        present=present.plusMinutes(interval.getMinute());
+        if(present.getHour()>end.getHour()){
+            return null;
         }
         return present;
     }

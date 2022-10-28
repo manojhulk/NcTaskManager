@@ -1,5 +1,8 @@
 package mx.tc.j2se.tasks;
 import java.util.*;
+import java.util.Spliterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
     private static final int INITIAL_CAPACITY = 10;
@@ -80,6 +83,17 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
         }
         return elementData[index];
     }
+
+    @Override
+    public Stream<task> getStream() {
+//        Stream<Task> taskStream= Stream.of(elementData);
+        //Spliterator<task> mySpliterator = new arraySpliterator(elementData);
+        // Here we are Defining our own stream using stream support
+        // and passing the Splitiratir above.
+        //return StreamSupport.stream(mySpliterator, false);
+        return null;
+    }
+
     public int getIndex(Task ob){
         int point=0;
         for(Task var: elementData){
@@ -89,17 +103,6 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
             point++;
         }
         return -1;
-    }
-    public ArrayTaskList incoming(int from, int to){
-        ArrayTaskList subsets= new ArrayTaskList();
-        for(Task t:elementData){
-            if(t.getStartTime()>=from && t.getStartTime()<=to){
-                subsets.add(t);
-            }else{
-                throw new IndexOutOfBoundsException("Time must be with in the range") ;
-            }
-        }
-        return subsets;
     }
     public boolean equals(Object obj) {
         //null instanceof Object will always return false

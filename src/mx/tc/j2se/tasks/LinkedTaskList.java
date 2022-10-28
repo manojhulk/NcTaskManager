@@ -1,5 +1,7 @@
 package mx.tc.j2se.tasks;
 
+import java.util.stream.Stream;
+
 public class LinkedTaskList extends AbstractTaskList implements Cloneable{
     private int lenLink;
     public Node head=null;
@@ -89,19 +91,12 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
         }
         return null;
     }
-    public LinkedTaskList incoming(int from, int to){
-        LinkedTaskList subsets= new LinkedTaskList();
-        if(head!=null){
-            Node current=head;
-            while(current!= null){
-                if(current.value.getStartTime()>=from && current.value.getStartTime()<=to){
-                    subsets.add(current.value);
-                }
-                current = current.next;
-            }
-        }
-        return subsets;
+
+    @Override
+    public Stream getStream() {
+        return null;
     }
+
     public boolean equals(Object obj) {
         //null instanceof Object will always return false
         if(obj==null){
@@ -126,4 +121,17 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
         LinkedTaskList clonedOb = (LinkedTaskList) super.clone();
         return clonedOb;
     }
+//    public LinkedTaskList incoming(int from, int to){
+//        LinkedTaskList subsets= new LinkedTaskList();
+//        if(head!=null){
+//            LinkedTaskList.Node current=head;
+//            while(current!= null){
+//                if(current.value.getStartTime()>=from && current.value.getStartTime()<=to){
+//                    subsets.add(current.value);
+//                }
+//                current = current.next;
+//            }
+//        }
+//        return subsets;
+//    }
 }
