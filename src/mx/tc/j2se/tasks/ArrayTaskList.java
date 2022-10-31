@@ -1,13 +1,11 @@
 package mx.tc.j2se.tasks;
 import java.util.*;
-import java.util.Spliterator;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
     private static final int INITIAL_CAPACITY = 10;
     private int len = 0;
-    private Task[] elementData={};
+    private Task[] elementData;
     /**
      *
      * constructor of custom ArrayList
@@ -73,7 +71,7 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
     */
     @Override
     public int size(){
-        return len;
+        return this.len;
     }
     @Override
     public Task getTask(int index){
@@ -85,14 +83,12 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
     }
 
     @Override
-    public Stream<task> getStream() {
-//        Stream<Task> taskStream= Stream.of(elementData);
+    public Stream<Task> getStream() {
+        Stream<Task> taskStream= Arrays.stream(elementData);
         //Spliterator<task> mySpliterator = new arraySpliterator(elementData);
         // Here we are Defining our own stream using stream support
-        // and passing the Splitiratir above.
         //return StreamSupport.stream(mySpliterator, false);
-        return null;
-    }
+        return Stream.of(elementData) ;  }
 
     public int getIndex(Task ob){
         int point=0;
@@ -103,6 +99,11 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
             point++;
         }
         return -1;
+    }
+    public void display(){
+        for (Task t: elementData) {
+            System.out.println(t.getTitle());
+        }
     }
     public boolean equals(Object obj) {
         //null instanceof Object will always return false
@@ -119,9 +120,13 @@ public class ArrayTaskList<task> extends AbstractTaskList implements Cloneable {
                 return false;
             }
         }
+        obj.hashCode();
         return true;
     }
     public int hashCode() {
+        int result=-1;
+
+
         return 0;
     }
     public Object clone() throws CloneNotSupportedException{

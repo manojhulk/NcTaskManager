@@ -1,8 +1,9 @@
 package mx.tc.j2se.tasks;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
 
-public abstract class AbstractTaskList<Task> implements Iterable<Task>{
+public abstract class AbstractTaskList implements Iterable<Task>{
     public abstract void add(mx.tc.j2se.tasks.Task data);
 
     public abstract boolean remove (mx.tc.j2se.tasks.Task ob);
@@ -35,19 +36,13 @@ public abstract class AbstractTaskList<Task> implements Iterable<Task>{
         };
         return it;
     }
-//    public ArrayTaskList incoming(int from, int to){
-//        ArrayTaskList subsets= (ArrayTaskList) getStream().filter(t ->(t.getStartTime()>=from && t.getStartTime()<=to)==true).forEach(t -> {});
-//        //ArrayList<Task> list = new ArrayList<>();
-//        //Stream<Task> stream = list.stream();
-//        for(mx.tc.j2se.tasks.Task t:elementData){
-//            if(t.getStartTime()>=from && t.getStartTime()<=to){
-//                subsets.add(t);
-//            }else{
-//                throw new IndexOutOfBoundsException("Time must be with in the range") ;
-//            }
-//        }
-//        return subsets;
-//    }
+    public ArrayTaskList incoming(LocalDateTime from, LocalDateTime to){
+        ArrayTaskList st = new ArrayTaskList();
+        getStream().filter(task -> (task.getStartTime().isAfter(from) && task.getEndTime().isBefore(to)) == true).forEach(task -> st.add(task));
+        //ArrayList<Task> list = new ArrayList<>();
+        //Stream<Task> stream = list.stream();
+        return st;
+    }
 
 
 

@@ -126,7 +126,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable{
 //        if(head!=null){
 //            LinkedTaskList.Node current=head;
 //            while(current!= null){
-//                if(current.value.getStartTime()>=from && current.value.getStartTime()<=to){
+//                if(current.value.getStartTime()>=from && current.value.getEndTime()<=to){
 //                    subsets.add(current.value);
 //                }
 //                current = current.next;

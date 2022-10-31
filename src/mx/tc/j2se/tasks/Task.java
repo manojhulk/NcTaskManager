@@ -8,27 +8,45 @@ import java.time.LocalDateTime.*;
 import java.time.LocalTime;
 
 public class Task {
+    String title;
     LocalDateTime start;
     LocalDateTime end;
+    LocalDateTime current;
+    LocalDateTime time;
     LocalTime interval;
-    private LocalDateTime time;
     boolean repeat;
-    private boolean active;
-    private String title;
+    boolean active;
+
+    /*
+    * constructor for non-repetitive tasks
+    *
+     */
     public Task (String title, LocalDateTime time){
-        this.title=title;
-        this.repeat=false;
-        this.time=time;
-        if(time.getHour()<0){
+        if(time.getHour()<0 && time.getMinute()<0){
             throw new IllegalArgumentException("Time parameter should be positive");
         }
+        this.title = title;
+        this.time = time;
+        this.repeat = false;
+        this.active = true;
     }
+    /*
+    * Constructor for repetitive tasks
+    *
+    */
     public Task (String title, LocalDateTime start, LocalDateTime end, LocalTime interval){
+        if(start.getHour()<0 || end.getHour()<0 || start.getMinute()<0 || end.getMinute()<0) {
+            throw new IllegalArgumentException("Time values cannot be negative");
+        }
+        if (interval.getHour()< 0) {
+            throw new IllegalArgumentException("The interval for repeating tasks should be greater than zero.");
+        }
         this.title=title;
         this.start=start;
         this.end=end;
         this.interval=interval;
         this.repeat=true;
+        this.active = true;
     }
     public String getTitle(){
         return title;
@@ -58,15 +76,8 @@ public class Task {
                 ", title='" + title + '\'' +
                 '}';
     }
-
-    public LocalDateTime getTime(){
-        if(repeat){
-            return time;
-        }
-        return null;
-    }
     public void setTime(LocalDateTime time){
-        if(repeat){
+        if(isRepeated()){
             repeat=false;
             this.time=time;
         }
@@ -74,23 +85,32 @@ public class Task {
             throw new IllegalArgumentException("Time parameter should be positive");
         }
     }
-    public LocalDateTime getStartTime(){
-        if(repeat){
-            return null;
+    public LocalDateTime getTime(){
+        if(isRepeated()){
+            return getStartTime();//getStartTime()
         }
-        return this.time;
+        return time;
+    }
+    public LocalDateTime getStartTime(){
+        if(isRepeated()){
+            return start;
+        }
+        return time;
     }
     public LocalDateTime getEndTime(){
-        return this.end;
+        if(isRepeated()){
+            return this.end;
+        }
+        return time;
     }
     public LocalTime getRepeatInterval(){
-        if(!repeat){
+        if(!isRepeated()){
             return LocalTime.of(0,0,0);
         }
         return interval ;
     }
     public void setTime(LocalDateTime start, LocalDateTime end, LocalTime interval){
-        if(!repeat){
+        if(!isRepeated()){
             this.start=start;
             this.end=end;
             this.interval=interval;
@@ -104,10 +124,13 @@ public class Task {
     public LocalDateTime nextTimeAfter (LocalDateTime current){
         LocalDateTime present=current.plusHours(interval.getHour());
         present=present.plusMinutes(interval.getMinute());
-        if(present.getHour()>end.getHour()){
-            return null;
+        if(current.plusHours(interval.getHour()).isBefore(end)){
+            active=true;
+            current=current.plusHours(interval.getHour());//long interval
+            return current;
         }
-        return present;
+        active=false;
+        return LocalDateTime.parse("-1");
     }
 }
 
