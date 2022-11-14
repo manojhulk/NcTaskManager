@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Iterator;
 
-import static mx.tc.j2se.tasks.Tasks.incoming;
-
 public class Main {
     public static void main(String[] args) {
        /* Task ts = new Task("Morning run", 20);
@@ -60,41 +58,13 @@ public class Main {
         *System.out.println(lt.size());
         *lt.display();
 
-        /** LINKED LIST CREATION using Abstract task list **/
-        /*AbstractTaskList linkList = TaskListFactory.createTaskList(ListTypes.types.LINKED);
-        linkList.add(ts);
-        linkList.add(ns);
-        System.out.println(linkList.size());
-        linkList.getTask(1);
-        System.out.println(linkList.toString());*/
-
 
         // Task 1
-        /*if(ts.isRepeated()){
-            int restart = ns.getStartTime();
-            int reEnd=ns.getEndTime();
-            int inter=ns.getRepeatInterval();
-            ns.setActive(false);
-            ns.setTitle("race");
-            ns.setTime(2,6,1);
-            System.out.println(ns.isActive());
-            System.out.println(restart+""+reEnd+""+inter+""+ns.getTitle());
-        }else{
-            int gt= ts.getTime();
-            ts.setActive(false);
-            ts.setTitle("Morning run");
-            ts.setTime(10);
-            System.out.println(ts.isActive());
-            System.out.println("Not repeated"+gt+""+ts.getTitle());
-        }*/
+
 
         /** Iterator for ArrayTaskList**/
 
-        /*AbstractTaskList abt= TaskListFactory.createTaskList(ListTypes.types.ARRAY);
-        Iterator<Task> it=abt.iterator();
-        while(it.hasNext()){
-            System.out.println(it.next().toString());
-        }*/
+
 
         //Task 5
         /** Creating object for abstractTaskList and implementing equals() and hashCode() methods**/
@@ -118,19 +88,58 @@ public class Main {
         Task tk2=new Task("Morning run",LocalDateTime.of(2022, Month.valueOf("MARCH"),1,8,15),LocalDateTime.of(2022, Month.valueOf("SEPTEMBER"),1,8,15), 24);
         Task tk3=new Task("Taking Medication",LocalDateTime.of(2022,Month.valueOf("AUGUST"),20,8,15),LocalDateTime.of(2022,Month.valueOf("SEPTEMBER"),28,8,15),12);
         Task tk4=new Task("Meeting with friends",LocalDateTime.of(2022,Month.valueOf("SEPTEMBER"),1,18,0));
-        //System.out.println(tk2.nextTimeAfter(LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,8,15)));
+        /*if(tk1.isRepeated()){
+            LocalDateTime restart = tk1.getStartTime();
+            LocalDateTime reEnd=tk1.getEndTime();
+            long inter=tk1.getRepeatInterval();
+            tk1.setActive(false);
+            tk1.setTitle("race");
+            //tk1.setTime(LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,16,00),LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,16,00),2);
+            System.out.println(tk1.isActive());
+            System.out.println(restart+""+reEnd+""+inter+""+tk1.getTitle());
+        }else{
+            LocalDateTime gt= tk1.getTime();
+            tk1.setActive(false);
+            tk1.setTitle("Morning run");
+            System.out.println(tk1.isActive());
+            System.out.println("Not repeated"+gt+""+tk1.getTitle());
+        }*///System.out.println(tk2.nextTimeAfter(LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,8,15)));
         //TaskListFactory tlf=new TaskListFactory();
+
+
         AbstractTaskList at= TaskListFactory.createTaskList(ListTypes.types.ARRAY);
         at.add(tk1);
         at.add(tk2);
         at.add(tk3);
         at.add(tk4);
-        //at.display();
-        Iterator<Task> it=at.iterator();
+        //System.out.println(at.remove(tk1));
+        //System.out.println(at.size());
+        //System.out.println(at.getTask(1));
+        //System.out.println(at.toString());
+
+        /** LINKED LIST CREATION using Abstract task list **/
+        /*LinkedTaskList linkList = new LinkedTaskList();//TaskListFactory.createTaskList(ListTypes.types.LINKED);
+        linkList.add(tk1);
+        linkList.add(tk2);
+        System.out.println(linkList.size());
+        System.out.println(linkList.toString());*/
+        //System.out.println(at.incoming(LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,8,15),LocalDateTime.of(2022, Month.valueOf("AUGUST"),24,8,15)));
+        /*Iterator<Task> it=at.iterator();
         Iterator<Task> item= incoming(it,LocalDateTime.of(2022,Month.valueOf("AUGUST"),25,8,0),LocalDateTime.of(2022,Month.valueOf("AUGUST"),26,8,0));
         while(item.hasNext()){
             System.out.println(item.next().getTitle());
+        }*/
+
+        AbstractTaskList abt= TaskListFactory.createTaskList(ListTypes.types.ARRAY);
+        abt.add(tk1);
+        Iterator<Task> it=abt.iterator();
+        while(it.hasNext()){
+            System.out.println(it.next().toString());
         }
+        //System.out.println(abt.equals(at));
+
+        System.out.println(abt.incoming(LocalDateTime.of(2022,Month.valueOf("AUGUST"),25,8,0),LocalDateTime.of(2022,Month.valueOf("AUGUST"),26,8,0)));
+
         System.out.println("THE END");
     }
 }

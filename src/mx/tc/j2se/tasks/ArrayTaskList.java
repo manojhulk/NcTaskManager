@@ -90,11 +90,18 @@ public class ArrayTaskList extends AbstractTaskList {
 
     @Override
     public Stream<Task> getStream() {
-        Stream<Task> taskStream= Arrays.stream(elementData);
+        //Stream<Task> taskStream= Arrays.stream(elementData);
+        Stream.Builder<Task> streamTask = Stream.builder();
+        for(Task i: this){
+            streamTask.add(i);
+        }
+        Stream<Task> stream = streamTask.build();
+        return stream;
         //Spliterator<task> mySpliterator = new arraySpliterator(elementData);
         // Here we are Defining our own stream using stream support
         //return StreamSupport.stream(mySpliterator, false);
-        return Stream.of(elementData) ;  }
+        //return Stream.of(elementData) ;
+    }
 
     public int getIndex(Task ob){
         int point=0;

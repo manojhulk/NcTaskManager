@@ -96,7 +96,13 @@ public class LinkedTaskList extends AbstractTaskList {
 
     @Override
     public Stream<Task> getStream() {
-        Task arr[] = new Task[this.size()];
+        Stream.Builder<Task> streamTask = Stream.builder();
+        for(Task i: this){
+            streamTask.add(i);
+        }
+        Stream<Task> stream = streamTask.build();
+        return stream;
+        /*Task arr[] = new Task[this.size()];
         if (head != null) {
             Node currentNode = head;
             int i = 0;
@@ -107,14 +113,8 @@ public class LinkedTaskList extends AbstractTaskList {
             }
         }
         Stream<Task> taskStream = Arrays.stream(arr);
-        return taskStream;
+        return taskStream;*/
     }
-    /*Stream.Builder<Task> streamTask = Stream.builder();
-    for(Task i: this){
-        streamTask.add(i);
-    }
-    Stream<Task> stream = streamTask.build();
-    return stream;*/
 }
 
   /*  public boolean equals(Object obj) {
